@@ -11,13 +11,12 @@ This repository contains a PyTorch implementation of a physics-informed neural n
 ## Project structure
 
 - `unsteady_fb_add_pinn.ipynb` — main training, evaluation, and visualization notebook
-- `saved_models/` — trained model checkpoints (`.pt` files)
-- `saved_histories/` — training histories and field snapshots (`.csv`, `.npz`)
+- `runs/` — trained model checkpoints (`.pt` files), training histories and field snapshots (`.csv`, `.npz`)
 - `saved_figures/` — generated figures and plots
 
 ## Requirements
 
-- Python 3.10+ recommended
+- Python 3.10+
 - PyTorch with CUDA support optional but not required
 - NumPy, Pandas, Matplotlib
 - scikit-learn is used in some plotting/model-metric sections
@@ -27,7 +26,7 @@ This repository contains a PyTorch implementation of a physics-informed neural n
 ### 1) Create and activate a virtual environment
 
 ```bash
-cd /home/prantik/projects/napc_2027
+cd /projects/shock_detecting_iadd_pinn
 python -m venv .venv
 source .venv/bin/activate
 ```
@@ -57,37 +56,25 @@ The notebook is organized as a training pipeline:
 2. train the single shock-detection network
 3. detect the shock location and initialize the split-domain setup
 4. train the left/right dual networks with interface conditions
-5. load saved checkpoints from `saved_models/`
+5. OR load saved checkpoints from `runs/`
 6. evaluate final predictions against the analytical solution
 7. generate loss and comparison plots in `saved_figures/`
 
 ## Reproducing saved outputs
 
-The repository already includes trained artifacts in `saved_models/` and `saved_histories/`.
-
-You can skip the long training process by loading the saved checkpoints already present in the project. The notebook contains cells like:
-
-```python
-model_paths = (
-    "saved_models/dual_net_pre_model.2026-09-26_16-22-40.pt",
-    "saved_models/dual_net_post_model.2026-09-26_16-22-40.pt",
-    "saved_models/interface_model.2026-09-26_16-22-40.pt",
-)
-```
-
-and loading code for the history and snapshot files.
+The repository will save runs, including model checkpoints, training histories, and field snapshots, under the `runs/` directory.
 
 ## Notes
 
 - The notebook uses a deterministic random seed (`SEED = 16`) for reproducibility.
 - Training can take a while on CPU; it is much faster on CUDA-enabled hardware.
-- Model checkpoints and histories are written automatically under `saved_models/` and `saved_histories/` when training runs.
+- Model checkpoints and histories are written automatically under `runs/` when training runs.
 - The main forward model outputs `(rho, u, P, T)` for each `(x, t)` sample.
 
 ## Typical workflow
 
 ```bash
-cd /home/prantik/projects/napc_2027
+cd /projects/shock_detecting_iadd_pinn
 source .venv/bin/activate
 jupyter notebook
 ```
